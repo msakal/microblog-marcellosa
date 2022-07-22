@@ -19,14 +19,14 @@ CREATE TABLE usuarios(
 
 CREATE TABLE noticias(
     id MEDIUMINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    data DATETIME NOT NULL,
+    data DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     titulo VARCHAR(150) NOT NULL,
     texto TEXT NOT NULL,
     resumo TINYTEXT NOT NULL,
     imagem VARCHAR(45) NOT NULL,
-    destaque ENUM('sim', 'nao'),
-    usuarios_id SMALLINT NOT NULL,
-    categorias_id SMALLINT NOT NULL
+    destaque ENUM('sim', 'nao') NOT NULL,
+    usuario_id SMALLINT NULL,
+    categoria_id SMALLINT NULL
 );
 
 CREATE TABLE categorias(
@@ -40,13 +40,13 @@ CREATE TABLE categorias(
 ```sql
 ALTER TABLE noticias
     ADD CONSTRAINT fk_noticias_usuarios
-    FOREIGN KEY(usuarios_id) REFERENCES usuarios(id)
+    FOREIGN KEY(usuario_id) REFERENCES usuarios(id)
     ON DELETE SET NULL ON UPDATE NO ACTION;
     
 
 ALTER TABLE noticias
     ADD CONSTRAINT fk_noticias_categorias
-    FOREIGN KEY(categorias_id) REFERENCES usuarios(id)
+    FOREIGN KEY(categoria_id) REFERENCES usuarios(id)
     ON DELETE SET NULL ON UPDATE NO ACTION;
 
 ```
