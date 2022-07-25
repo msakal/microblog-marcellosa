@@ -41,9 +41,7 @@ $listaDeUsuarios = $usuario->listar();
 				<tbody>
 					
 					<?php
-						$i = 0;
 						foreach ($listaDeUsuarios as $usuarios) {
-							$i ++;
 					?>
 							<tr>
 								<td><?=$usuarios['nome']?></td>
