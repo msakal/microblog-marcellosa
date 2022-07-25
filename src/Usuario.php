@@ -31,6 +31,7 @@ final class Usuario {
         return $resultado;
     }
 
+    // Inserir Usuário
     public function inserir():void {
         $sql = "INSERT INTO usuarios(nome, email, senha, tipo)
         VALUES(:nome, :email, :senha, :tipo)";
@@ -47,10 +48,74 @@ final class Usuario {
         }
     }
 
+    // Lista UM Usuário
+    public function listarUm():array {
+        $sql = "SELECT * FROM usuarios WHERE id = :id";
+
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindParam(":id", $this->id, PDO::PARAM_INT);
+            $consulta->execute();
+            $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+        }  catch (Exception $erro) {
+            die("ERRO: ".$erro->getMessage());
+        }
+        return $resultado;
+    }
+
+    // Atualização de Usuário
+    public function atualizar():void {
+        $sql = "UPDATE usuarios SET nome = :nome, email = :email, senha = :senha, tipo = :tipo
+        WHERE id = :id";
+
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindParam(':id', $this->id, PDO::PARAM_INT);
+            $consulta->bindParam(':nome', $this->nome, PDO::PARAM_STR);
+            $consulta->bindParam(':email', $this->email, PDO::PARAM_STR);
+            $consulta->bindParam(':senha', $this->senha, PDO::PARAM_STR);
+            $consulta->bindParam(':tipo', $this->tipo, PDO::PARAM_STR);
+            $consulta->execute();
+        }  catch (Exception $erro) {
+            die("ERRO: ".$erro->getMessage());
+        }
+    }
+
+    // Exclusão UM Usuário
+    public function excluirUsuario():void {
+        $sql = "DELETE FROM usuarios WHERE id = :id";
+    
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindParam(':id', $this->id, PDO::PARAM_INT);
+            $consulta->execute();
+    
+        } catch (Exception $erro) {
+            die("Erro: ".$erro->getMessage());
+        }
+    
+    }
+
+
+
     // consistência da senha
     public function codificaSenha(string $senha):string {
         return password_hash($senha, PASSWORD_DEFAULT);
     }
+    // Verifica senha
+    public function verificaSenha(string $senhaFormulario, string $senhaBanco):string {
+        
+        // Usando a password_verify para COMPARAR as duas senhas: digitada com existente no BD
+        if ( password_verify($senhaFormulario, $senhaBanco) ) {
+            // Senhas iguais,, então não mude!
+            return $senhaBanco;
+        } else {
+            // Senhas diferentes,, então codifique!
+            return $this->codificaSenha($senhaFormulario);
+        }
+    }
+
+
 
     // id
     public function getId(): int
