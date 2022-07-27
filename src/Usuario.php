@@ -82,7 +82,7 @@ final class Usuario {
     }
 
     // Exclusão UM Usuário
-    public function excluirUsuario():void {
+    public function excluir():void {
         $sql = "DELETE FROM usuarios WHERE id = :id";
     
         try {

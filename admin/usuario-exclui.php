@@ -7,7 +7,7 @@ use Microblog\Usuario;
     $OBJusuario = new Usuario;
 
     $OBJusuario->setId($_GET['id']);
-    $OBJusuario->excluirUsuario();
+    $OBJusuario->excluir();
 
     header("location:usuarios.php");
 
