@@ -89,14 +89,26 @@ final class Usuario {
             $consulta = $this->conexao->prepare($sql);
             $consulta->bindParam(':id', $this->id, PDO::PARAM_INT);
             $consulta->execute();
-    
         } catch (Exception $erro) {
             die("Erro: ".$erro->getMessage());
         }
     
     }
 
+    // Verifica existência do e-mail e recupera -> retorna o 'array' ou 'bool' (falso)
+    public function buscar():array | bool {
+        $sql = "SELECT * FROM usuarios WHERE email = :email";
 
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindParam(':email', $this->email, PDO::PARAM_STR);
+            $consulta->execute();
+            $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+        } catch (Exception $erro) {
+            die("Erro: ".$erro->getMessage());
+        }
+        return $resultado;
+    }
 
     // consistência da senha
     public function codificaSenha(string $senha):string {
