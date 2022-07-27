@@ -1,7 +1,12 @@
 <?php
 
+    use Microblog\ControleDeAcesso;
     use Microblog\Usuario;
     require_once "../vendor/autoload.php";
+
+    // Controle,, verificação para NÃO fazer EXCLUSÃO se NÃO estiver logado
+    $OBJsessao = new ControleDeAcesso;
+    $OBJsessao->verificaAcesso();
 
     // Criamos um obj para poder acessar os recursos da Classe
     $OBJusuario = new Usuario;  // Não esqueça do autoload e do namespace
