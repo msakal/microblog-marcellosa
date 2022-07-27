@@ -1,5 +1,16 @@
 <?php
+
+use Microblog\ControleDeAcesso;
+
 require_once "../vendor/autoload.php";
+
+// criamos o obj para acessar os recursos de PHP na classe ControleDeAcesso
+$OBJsessao = new ControleDeAcesso;
+
+// Executamos verificaAcesso para checar se tem alguém logado
+$OBJsessao->verificaAcesso();
+
+// Cria um controle com o nome da página de acesso
 $pagina = basename($_SERVER['PHP_SELF']);
 ?>
 <!DOCTYPE html>
