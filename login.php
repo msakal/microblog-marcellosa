@@ -1,5 +1,6 @@
 <?php
 
+use Microblog\ControleDeAcesso;
 use Microblog\Usuario;
 use Microblog\Utilitarios;
 
@@ -12,6 +13,10 @@ if ( isset($_GET['acesso_proibido']) ) {
 	$feedback = '❌ Você deve preencher os dois campos!';
 } elseif ( isset($_GET['nao_encontrado']) ) {
 	$feedback = '❌ Usuário NÃO encontrado!';
+} elseif ( isset($_GET['senha_incorreta']) ) {
+	$feedback = 'Senha incorreta!';
+} elseif ( isset($_GET['logout']) ) {
+	$feedback = 'Você saiu do sistema';
 }
 
 ?>
@@ -43,8 +48,8 @@ if ( isset($_GET['acesso_proibido']) ) {
 			</form>
 
 	<?php
+
 		if ( isset($_POST['entrar']) ) {
-			
 			// Verificação de Campos do formulário
 			if ( empty($_POST['email']) || empty($_POST['senha']) ) {
 				header("location:login.php?campos_obrigatorios");
@@ -63,14 +68,19 @@ if ( isset($_GET['acesso_proibido']) ) {
 				} else {
 					// Verificação da senha e login
 					if ( password_verify($_POST['senha'], $dados['senha']) ) {
-						echo "senha correta";
+						// Senha correta, faz login
+						$OBJsessao = new ControleDeAcesso;
+						$OBJsessao->login( $dados['id'], $dados['nome'], $dados['tipo'] );
+						header("location:admin/index.php");
 					} else {
-						echo "senha divergênte ...";
+						// Senha incorreta, gera msg e blq acesso
+						header("location:login.php?senha_incorreta");
 					}
 				}
 
 			}
 		}
+		
 	?>
 
 
