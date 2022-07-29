@@ -6,6 +6,8 @@
 
     // Controle,, verificação para NÃO fazer EXCLUSÃO se NÃO estiver logado
     $OBJsessao = new ControleDeAcesso;
+
+    $OBJsessao->verificaAcessoAdmin();
     $OBJsessao->verificaAcesso();
 
     // Criamos um obj para poder acessar os recursos da Classe

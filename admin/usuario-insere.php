@@ -4,6 +4,8 @@ use Microblog\Usuario;
 
 require_once "../inc/cabecalho-admin.php";
 
+$OBJsessao->verificaAcessoAdmin();
+
 if(isset ($_POST['inserir'])) {
 	$OBJusuario = new Usuario;
 

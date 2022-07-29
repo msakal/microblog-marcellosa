@@ -3,7 +3,10 @@
 use Microblog\Usuario;
 use Microblog\Utilitarios;
 
+
 require_once "../inc/cabecalho-admin.php";
+
+$OBJsessao->verificaAcessoAdmin();
 
 $usuario = new Usuario;
 $listaDeUsuarios = $usuario->listar();

@@ -5,6 +5,8 @@ use Microblog\Utilitarios;
 
 require_once "../inc/cabecalho-admin.php";
 
+$OBJsessao->verificaAcessoAdmin();
+
 $OBJusuario = new Usuario;
 $OBJusuario->setId($_GET['id']);
 $dados = $OBJusuario->listarUm();
