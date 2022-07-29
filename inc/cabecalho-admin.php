@@ -50,8 +50,8 @@ $pagina = basename($_SERVER['PHP_SELF']);
                 <a class="nav-link" href="meu-perfil.php">Meu perfil</a>
             </li>
 
-            <!-- área de adminstrador -->
-            <?php if($_SESSION['tipo'] == 'admin'){?>
+            <!-- área do adminstrador -->
+            <?php if( $_SESSION['tipo'] === 'admin' ) { ?>
                 <li class="nav-item">
                     <a class="nav-link" href="categorias.php">Categorias</a>
                 </li>
