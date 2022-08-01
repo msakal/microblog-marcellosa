@@ -1,6 +1,17 @@
 <?php
 
+use Microblog\Usuario;
+
 require_once "../inc/cabecalho-admin.php";
+
+$OBJusuario = new Usuario;
+$OBJusuario->setId($_SESSION['id']);
+// $dados = $OBJusuario->listarUm();
+
+
+if ( isset($_GET['perfil-atualizado']) ) {
+	$feedback = 'Dados Atualizado com Sucesso!';
+}
 
 ?>
 
@@ -8,6 +19,14 @@ require_once "../inc/cabecalho-admin.php";
 <article class="p-5 my-4 rounded-3 bg-white shadow">
     <div class="container-fluid py-1">        
         <h2 class="display-4">Olá <?=$_SESSION['nome']?>!</h2>
+
+        <!-- Retorno Msg para Atualização dos Dados -->
+        <?php if(isset($feedback)){?>
+            <p class="my-2 alert alert-warning text-center">
+                <?=$feedback?>
+            </p>
+        <?php } ?>
+
         <p class="fs-5">Você está no <b>painel de controle e administração</b> do
 		site Microblog e seu <b>nível de acesso</b> é <span class="badge bg-dark"> <?=$_SESSION['tipo']?> </span>.</p>
         <hr class="my-4">
