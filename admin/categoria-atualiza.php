@@ -1,8 +1,26 @@
-<?php 
+<?php
+
+use Microblog\Categoria;
+use Microblog\Utilitarios;
 
 require_once "../inc/cabecalho-admin.php";
 
 $OBJsessao->verificaAcessoAdmin();
+
+$OBJcategoria = new Categoria;
+$OBJcategoria->setId($_GET['id']);
+$dados = $OBJcategoria->listarUm();
+
+// Utilitarios::dump($dados);
+
+if(isset($_POST['atualizar'])) {
+      
+	$OBJcategoria->setNome($_POST['nome']);
+
+	$OBJcategoria->atualizar();
+	header("location:categorias.php?status=sucesso");
+}
+
 ?>
 
 
@@ -17,7 +35,7 @@ $OBJsessao->verificaAcessoAdmin();
 
 			<div class="mb-3">
 				<label class="form-label" for="nome">Nome:</label>
-				<input class="form-control" type="text" id="nome" name="nome" required>
+				<input class="form-control" type="text" id="nome" name="nome" value="<?=$dados['nome']?>" required>
 			</div>
 			
 			<button class="btn btn-primary" name="atualizar"><i class="bi bi-arrow-clockwise"></i> Atualizar</button>

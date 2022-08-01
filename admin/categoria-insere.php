@@ -1,8 +1,19 @@
-<?php 
+<?php
+
+use Microblog\Categoria;
 
 require_once "../inc/cabecalho-admin.php";
 
 $OBJsessao->verificaAcessoAdmin();
+
+if(isset ($_POST['inserir'])) {
+	$OBJcategoria = new Categoria;
+
+	$OBJcategoria->setNome(($_POST['nome']));
+	
+	$OBJcategoria->inserir();
+	header("location:categorias.php");
+}
 ?>
 
 

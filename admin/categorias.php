@@ -1,8 +1,16 @@
 <?php
 
+use Microblog\Categoria;
+use Microblog\Utilitarios;
+
 require_once "../inc/cabecalho-admin.php";
 
 $OBJsessao->verificaAcessoAdmin();
+
+$OBJcategoria = new Categoria;
+$listaDeCategorias = $OBJcategoria->listar();
+
+// Utilitarios::dump($listaDeCategorias);
 
 ?>
 
@@ -11,7 +19,7 @@ $OBJsessao->verificaAcessoAdmin();
 	<article class="col-12 bg-white rounded shadow my-1 py-4">
 		
 		<h2 class="text-center">
-		Categorias <span class="badge bg-dark">X</span>
+		Categorias <span class="badge bg-dark"><?=count($listaDeCategorias)?></span>
 		</h2>
 
 		<p class="text-center mt-5">
@@ -31,22 +39,23 @@ $OBJsessao->verificaAcessoAdmin();
 				</thead>
 
 				<tbody>
-
+					<?php foreach($listaDeCategorias as $categorias) { ?>
 					<tr>
-						<td> Nome... </td>
+						<td><?=$categorias['nome']?></td>
+
 						<td class="text-center">
 							<a class="btn btn-warning" 
-							href="categoria-atualiza.php">
+							href="categoria-atualiza.php?id=<?=$categorias['id']?>">
 							<i class="bi bi-pencil"></i> Atualizar
 							</a>
 						
 							<a class="btn btn-danger excluir" 
-							href="categoria-exclui.php">
+							href="categoria-exclui.php?id=<?=$categorias['id']?>">
 							<i class="bi bi-trash"></i> Excluir
 							</a>
 						</td>
 					</tr>
-
+					<?php }	?>
 				</tbody>                
 			</table>
 	    </div>
