@@ -14,7 +14,10 @@ $dados = $OBJusuario->listarUm();
 if(isset($_POST['atualizar'])) {
       
 	$OBJusuario->setNome($_POST['nome']);
+
+	// Atualiza sessão com os dados alterados
 	$_SESSION['nome'] = $OBJusuario->getNome();
+	
 	$OBJusuario->setEmail($_POST['email']);
 	$_SESSION['email'] = $OBJusuario->getEmail();
 	$OBJusuario->setTipo($_SESSION['tipo']);

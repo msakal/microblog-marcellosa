@@ -1,13 +1,6 @@
 <?php
 
-use Microblog\Usuario;
-
 require_once "../inc/cabecalho-admin.php";
-
-$OBJusuario = new Usuario;
-$OBJusuario->setId($_SESSION['id']);
-// $dados = $OBJusuario->listarUm();
-
 
 if ( isset($_GET['perfil-atualizado']) ) {
 	$feedback = 'Dados Atualizado com Sucesso!';
@@ -22,10 +15,11 @@ if ( isset($_GET['perfil-atualizado']) ) {
 
         <!-- Retorno Msg para Atualização dos Dados -->
         <?php if(isset($feedback)){?>
-            <p class="my-2 alert alert-warning text-center">
+            <p class="alert alert-primary">
                 <?=$feedback?>
             </p>
         <?php } ?>
+        <!-- -------------------------------------- -->
 
         <p class="fs-5">Você está no <b>painel de controle e administração</b> do
 		site Microblog e seu <b>nível de acesso</b> é <span class="badge bg-dark"> <?=$_SESSION['tipo']?> </span>.</p>
