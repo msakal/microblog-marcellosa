@@ -1,5 +1,25 @@
-<?php 
+<?php
+
+use Microblog\Usuario;
+
 require_once "../inc/cabecalho-admin.php";
+
+$OBJsessao->verificaAcessoAdmin();
+
+if(isset ($_POST['inserir'])) {
+	$OBJusuario = new Usuario;
+
+	$OBJusuario->setNome(($_POST['nome']));
+	$OBJusuario->setEmail(($_POST['email']));
+	$OBJusuario->setTipo(($_POST['tipo']));
+	
+	$OBJusuario->setSenha( $OBJusuario->codificaSenha($_POST['senha']) );
+	// echo $OBJusuario->getSenha();
+
+	$OBJusuario->inserir();
+	header("location:usuarios.php");
+}
+
 ?>
 
 
@@ -10,7 +30,7 @@ require_once "../inc/cabecalho-admin.php";
 		Inserir novo usuário
 		</h2>
 				
-		<form class="mx-auto w-75" action="" method="post" id="form-inserir" name="form-inserir">
+		<form class="mx-auto w-75" action="" method="post" id="form-inserir" name="form-inserir" autocomplete="off">
 
 			<div class="mb-3">
 				<label class="form-label" for="nome">Nome:</label>
@@ -19,12 +39,12 @@ require_once "../inc/cabecalho-admin.php";
 
 			<div class="mb-3">
 				<label class="form-label" for="email">E-mail:</label>
-				<input class="form-control" type="email" id="email" name="email" required>
+				<input class="form-control" type="email" id="email" name="email" required autocomplete="off">
 			</div>
 
 			<div class="mb-3">
 				<label class="form-label" for="senha">Senha:</label>
-				<input class="form-control" type="password" id="senha" name="senha" required>
+				<input class="form-control" type="password" id="senha" name="senha" required autocomplete="off">
 			</div>
 
 			<div class="mb-3">

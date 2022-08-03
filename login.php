@@ -1,5 +1,26 @@
-<?php 
+<?php
+
+use Microblog\ControleDeAcesso;
+use Microblog\Usuario;
+use Microblog\Utilitarios;
+
 require_once "inc/cabecalho.php";
+
+// Mensagens de feedback relacionadas ao acesso
+if ( isset($_GET['acesso_proibido']) ) {
+	$feedback = '☠️ Você deve logar primeiro!';
+} elseif ( isset($_GET['campos_obrigatorios']) ) {
+	$feedback = '❌ Você deve preencher os dois campos!';
+} elseif ( isset($_GET['nao_encontrado']) ) {
+	$feedback = '❌ Usuário NÃO encontrado!';
+} elseif ( isset($_GET['senha_incorreta']) ) {
+	$feedback = 'Senha incorreta!';
+} elseif ( isset($_GET['logout']) ) {
+	$feedback = 'Você saiu do sistema';
+} elseif ( isset($_GET['nao-autorizado']) ) {
+	$feedback = 'Acesso NÃO Autorizado';
+}
+
 ?>
 
 
@@ -11,6 +32,7 @@ require_once "inc/cabecalho.php";
 
                 <?php if(isset($feedback)){?>
 				<p class="my-2 alert alert-warning text-center">
+					<?=$feedback?>
 				</p>
                 <?php } ?>
 
@@ -26,6 +48,44 @@ require_once "inc/cabecalho.php";
 				<button class="btn btn-primary btn-lg" name="entrar" type="submit">Entrar</button>
 
 			</form>
+
+	<?php
+
+		if ( isset($_POST['entrar']) ) {
+			// Verificação de Campos do formulário
+			if ( empty($_POST['email']) || empty($_POST['senha']) ) {
+				header("location:login.php?campos_obrigatorios");
+			} else {
+				// Capturamos o e-mail informado
+				$OBJusuario = new Usuario;
+				$OBJusuario->setEmail($_POST['email']);
+
+				// Buscando um usuário no banco a partir do e-mail
+				$dados = $OBJusuario->buscar();
+				// Utilitarios::dump($dados);
+
+				if( !$dados ) {
+					// NÃO CADASTRADO .. Então, fica no login e dá um feedback
+					header("location:login.php?nao_encontrado");
+				} else {
+					// Verificação da senha e login
+					if ( password_verify($_POST['senha'], $dados['senha']) ) {
+						// Senha correta, faz login
+						$OBJsessao = new ControleDeAcesso;
+						$OBJsessao->login( $dados['id'], $dados['nome'], $dados['tipo'] );
+						header("location:admin/index.php");
+					} else {
+						// Senha incorreta, gera msg e blq acesso
+						header("location:login.php?senha_incorreta");
+					}
+				}
+
+			}
+		}
+		
+	?>
+
+
     </div>
     
     
