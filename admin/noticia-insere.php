@@ -1,5 +1,6 @@
 <?php
 
+use Microblog\Categoria;
 use Microblog\Noticia;
 use Microblog\Utilitarios;
 
@@ -7,6 +8,26 @@ require_once "../inc/cabecalho-admin.php";
 
 $OBJnoticia = new Noticia;
 // Utilitarios::dump($OBJnoticia);
+
+$OBJcategoria = new Categoria;
+$listaDeCategorias = $OBJcategoria->listar();
+
+if( isset ($_POST['inserir'])) {
+	$OBJnoticia = new Noticia;
+
+	$OBJnoticia->setTitulo($_POST['titulo']);
+	$OBJnoticia->setTexto($_POST['texto']);
+	$OBJnoticia->setResumo($_POST['resumo']);
+	$OBJnoticia->setDestaque($_POST['destaque']);
+	$OBJnoticia->setCategoriaId($_POST['categoria']);
+
+	// $OBJnoticia->setImagem($_POST['alguma coisa img']);
+
+	// Aplicamos o id do usuário logado na sessão à propriedade id da classe/objeto Usuario.
+	$OBJnoticia->OBJusuario->setId($_SESSION['id']);
+
+	Utilitarios::dump($OBJnoticia);
+}
 
 ?>
 
@@ -24,9 +45,11 @@ $OBJnoticia = new Noticia;
                 <label class="form-label" for="categoria">Categoria:</label>
                 <select class="form-select" name="categoria" id="categoria" required>
 					<option value=""></option>
-					<option value="1">Ciência</option>
-					<option value="2">Educação</option>
-					<option value="3">Tecnologia</option>
+					
+					<?php foreach($listaDeCategorias as $categoria) { ?>
+						<option value="<?=$categoria['id']?>"><?=$categoria['nome']?></option>
+					<?php }	?>
+
 				</select>
 			</div>
 
