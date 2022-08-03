@@ -3,8 +3,8 @@ namespace Microblog;
 
 abstract class Utilitarios {
 
-    // Retorno chamadas (consulta)
-    public static function dump(array | bool $dados) {
+    // Retorno chamadas (consulta) - ou dump(array | bool $dados)
+    public static function dump($dados) {
         echo "<pre>";
             var_dump($dados);
         echo "</pre>";
