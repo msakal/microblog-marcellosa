@@ -21,12 +21,20 @@ if( isset ($_POST['inserir'])) {
 	$OBJnoticia->setDestaque($_POST['destaque']);
 	$OBJnoticia->setCategoriaId($_POST['categoria']);
 
-	// $OBJnoticia->setImagem($_POST['alguma coisa img']);
-
 	// Aplicamos o id do usuário logado na sessão à propriedade id da classe/objeto Usuario.
 	$OBJnoticia->OBJusuario->setId($_SESSION['id']);
 
-	Utilitarios::dump($OBJnoticia);
+
+	// Capturar os dados do arquivo enviado ..
+	$imagem = $_FILES["imagem"];
+	// Função upload (responsávelpor pegar o arquivo inteiro e enviar para o HD do servidor).
+	$OBJnoticia->upload($imagem);
+
+	// Enviando para o setters (e para o banco) SOMENTE a parte que se refere ao nome/extensão do arquivo
+	$OBJnoticia->setImagem($imagem['name']);
+
+
+	// Utilitarios::dump($imagem);
 }
 
 ?>
@@ -38,8 +46,9 @@ if( isset ($_POST['inserir'])) {
 		<h2 class="text-center">
 		Inserir nova notícia
 		</h2>
-				
-		<form class="mx-auto w-75" action="" method="post" id="form-inserir" name="form-inserir">
+
+		<!-- ( enctype="multipart/form-data" ) para se trabalhar com arquivos de seleção -->
+		<form enctype="multipart/form-data" class="mx-auto w-75" action="" method="post" id="form-inserir" name="form-inserir">
 
             <div class="mb-3">
                 <label class="form-label" for="categoria">Categoria:</label>
@@ -73,6 +82,7 @@ if( isset ($_POST['inserir'])) {
                 <label class="form-label" for="imagem" class="form-label">Selecione uma imagem:</label>
                 <input required class="form-control" type="file" id="imagem" name="imagem"
                 accept="image/png, image/jpeg, image/gif, image/svg+xml">
+				<!-- mime type (imgem/png), são os tipos de arquivos que podem ser selecionados -->
 			</div>
 			
             <div class="mb-3">
