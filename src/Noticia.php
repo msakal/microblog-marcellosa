@@ -67,14 +67,20 @@ final class Noticia {
                     history.back();
                 </script>"
             );
-        } else {
-            die("
-                <script>
-                    alert('Formato Válido!');
-                    history.back();
-                </script>"
-            );
-        }
+        } 
+
+        // Acessando apenas o nome do arquivo
+        $nome = $arquivo['name'];
+
+        // Acessando os dados de acesso temporário
+        $temporario = $arquivo['tmp_name'];
+
+        // Definindo a pasta de destino junto com o nome do arquivo
+        $destino = "../imagem/".$nome;
+
+        // Usamos a função abaixo para pegar da área temporária e enviar para a pasta de destino (com o nome do arquivo).
+        move_uploaded_file( $temporario, $destino );
+      
     }
     
 
