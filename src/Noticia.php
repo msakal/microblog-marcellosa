@@ -83,6 +83,20 @@ final class Noticia {
       
     }
     
+    // listar
+    public function listar():array {
+        // Se o tipo de usuário logado for 'admin'
+        if ( $this->OBJusuario->getTipo() === 'admin' ) {
+            // Poderá acessar as notícias de todos mundo
+            $sql = "";
+        } else {
+            // Senão (usuário 'editor'), poderá acessar somente suas próprias notícias
+            $sql = "";
+        }
+
+    }
+
+
 
 
     // id
