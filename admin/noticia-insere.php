@@ -29,10 +29,12 @@ if( isset ($_POST['inserir'])) {
 	$imagem = $_FILES["imagem"];
 	// Função upload (responsávelpor pegar o arquivo inteiro e enviar para o HD do servidor).
 	$OBJnoticia->upload($imagem);
-
 	// Enviando para o setters (e para o banco) SOMENTE a parte que se refere ao nome/extensão do arquivo
 	$OBJnoticia->setImagem($imagem['name']);
 
+
+	$OBJnoticia->inserir();
+	header("location:noticias.php");
 
 	// Utilitarios::dump($imagem);
 }
