@@ -85,16 +85,39 @@ final class Noticia {
     
     // listar
     public function listar():array {
+        
         // Se o tipo de usuário logado for 'admin'
         if ( $this->OBJusuario->getTipo() === 'admin' ) {
             // Poderá acessar as notícias de todos mundo
-            $sql = "";
+            $sql = "SELECT noticias.id, noticias.titulo, noticias.data, noticias.destaque,
+            usuarios.nome AS autor
+            FROM noticias LEFT JOIN usuarios
+            ON noticias.usuario_id = usuarios.id
+            ORDER BY data DESC";
         } else {
             // Senão (usuário 'editor'), poderá acessar somente suas próprias notícias
-            $sql = "";
+            $sql = "SELECT id, titulo, data, destaque FROM noticias WHERE usuario_id = :usuario_id
+            ORDER BY data DESC";
         }
 
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            
+            // Se não for um usuário 'admin', então trate o parâmetro de usuário_id antes de executar.
+            if ($this->OBJusuario->getTipo() !== 'admin') {
+                $consulta->bindValue(':usuario_id', $this->OBJusuario->getId(), PDO::PARAM_INT);
+            }
+            
+            $consulta->execute();
+            $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+        }  catch (Exception $erro) {
+            die("ERRO: ".$erro->getMessage());
+        }
+
+        return $resultado;
     }
+
 
 
 
