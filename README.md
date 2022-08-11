@@ -13,3 +13,16 @@
  - $_GET[] -> acesso da página
  - $_POST[] -> acesso do formulário
  - $SESSION[] -> acesso da sessão (global)
+
+ 1) instalação
+- composer require twbs/bootstrap:5.2.0-beta1
+
+2) desinstalação
+dentro do arquivo composer.json, excluir:
+
+,
+    "require": {
+        "twbs/bootstrap": "5.2.0-beta1"
+    }
+- depois executar o comando abaixo:
+    - composer remove twbs/bootstrap:5.2.0-beta1

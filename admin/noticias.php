@@ -57,7 +57,7 @@ $listaDeNoticias = $OBJnoticia->listar();
 						<?php
 							if ( $_SESSION['tipo'] == 'admin' ) {
 								if ( $noticia['autor'] ) {
-									?><td><?=mb_strimwidth($noticia['autor'], 0, 20, "...")?></td> <?php
+									?><td><?=mb_strimwidth($noticia['autor'], 0, 20, " ...")?></td> <?php
 								} else {
 									?> <td>Equipe Microblog</td> <?php
 								}

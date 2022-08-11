@@ -5,7 +5,7 @@
         }
     },
     "require": {
-        "twbs/bootstrap": "^5.1",
+        "twbs/bootstrap": "5.2.0-beta1",
         "twbs/bootstrap-icons": "^1.9"
     }
 }
