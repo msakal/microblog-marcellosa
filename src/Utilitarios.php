@@ -15,6 +15,6 @@ abstract class Utilitarios {
     }
 
     public static function limitaCaracter($noticia) {
-        return mb_strimwidth($noticia['autor'], 0, 25, " ...");
+        return mb_strimwidth($noticia['autor'], 0, 20, " ...");
     }
 }
