@@ -11,6 +11,9 @@ $OBJsessao->verificaAcesso();
 
 $OBJnoticia = new Noticia;
 $OBJnoticia->setId($_GET['id']);
+$OBJnoticia->OBJusuario->setId($_SESSION['id']);
+$OBJnoticia->OBJusuario->setTipo($_SESSION['tipo']);
+
 $OBJnoticia->excluir();
 
 header("location:noticias.php");

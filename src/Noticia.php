@@ -182,11 +182,20 @@ final class Noticia {
 
     // Exclusão UMA Noticia
     public function excluir():void {
-        $sql = "DELETE FROM noticias WHERE id = :id";
-    
+        
+        if ( $this->OBJusuario->getTipo() === 'admin' ) {
+            $sql = "DELETE FROM noticias WHERE id = :id";
+        } else {
+            $sql = "DELETE FROM noticias WHERE id = :id AND usuario_id = :usuario_id";
+        }
         try {
             $consulta = $this->conexao->prepare($sql);
             $consulta->bindParam(':id', $this->id, PDO::PARAM_INT);
+
+            if ($this->OBJusuario->getTipo() !== 'admin') {
+                $consulta->bindValue(":usuario_id", $this->OBJusuario->getId(), PDO::PARAM_INT);
+            }
+
             $consulta->execute();
         } catch (Exception $erro) {
             die("Erro: ".$erro->getMessage());
