@@ -14,7 +14,7 @@ abstract class Utilitarios {
         return date('d/m/Y H:i',strtotime($noticia['data']));
     }
 
-    public static function limitaCaracter($noticia) {
-        return mb_strimwidth($noticia['autor'], 0, 20, " ...");
+    public static function limitaCaracter($array) {
+        return mb_strimwidth($array, 0, 20, " ...");
     }
 }

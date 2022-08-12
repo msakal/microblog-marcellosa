@@ -83,7 +83,7 @@ final class Noticia {
       
     }
     
-    // listar
+    // Listar
     public function listar():array {
         
         // Se o tipo de usuário logado for 'admin'
@@ -107,7 +107,6 @@ final class Noticia {
             if ($this->OBJusuario->getTipo() !== 'admin') {
                 $consulta->bindValue(':usuario_id', $this->OBJusuario->getId(), PDO::PARAM_INT);
             }
-            
             $consulta->execute();
             $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
 
@@ -118,8 +117,68 @@ final class Noticia {
         return $resultado;
     }
 
+    // Listar UMA Noticia
+    public function listarUm():array {
+        
+        if ( $this->OBJusuario->getTipo() === 'admin' ) {
+            $sql = "SELECT titulo, texto, resumo, imagem, usuario_id, categoria_id, destaque
+            FROM noticias WHERE id = :id";
+        } else {
+            $sql = "SELECT titulo, texto, resumo, imagem, usuario_id, categoria_id, destaque
+            FROM noticias WHERE id = :id AND usuario_id = :usuario_id";
+        }
 
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindParam(':id', $this->id, PDO::PARAM_INT);
+            
+            if ($this->OBJusuario->getTipo() !== 'admin') {
+                $consulta->bindValue(':usuario_id', $this->OBJusuario->getId(), PDO::PARAM_INT);
+            }
+            
+            $consulta->execute();
+            $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
 
+        }  catch (Exception $erro) {
+            die("ERRO: ".$erro->getMessage());
+        }
+
+        return $resultado;
+    }
+
+    // Atualizar
+    public function atualizar():void {
+        
+        if ( $this->OBJusuario->getTipo() === 'admin' ) {
+            $sql = "UPDATE noticias 
+            SET titulo = :titulo, texto = :texto, resumo = :resumo, imagem = :imagem, categoria_id = :categoria_id, destaque = :destaque
+            WHERE id = :id";
+        } else {$sql = "UPDATE noticias 
+            SET titulo = :titulo, texto = :texto, resumo = :resumo, imagem = :imagem, categoria_id = :categoria_id, destaque = :destaque
+            WHERE id = :id AND usuario_id = :usuario_id";
+        }
+
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindParam(":id", $this->id, PDO::PARAM_INT);
+            $consulta->bindParam(":titulo", $this->titulo, PDO::PARAM_STR);
+            $consulta->bindParam(":texto", $this->texto, PDO::PARAM_STR);
+            $consulta->bindParam(":resumo", $this->resumo, PDO::PARAM_STR);
+            $consulta->bindParam(":imagem", $this->imagem, PDO::PARAM_STR);
+            $consulta->bindParam(":categoria_id", $this->categoriaId, PDO::PARAM_INT);
+            $consulta->bindParam(":destaque", $this->destaque, PDO::PARAM_STR);
+            
+            if ($this->OBJusuario->getTipo() !== 'admin') {
+                $consulta->bindValue(":usuario_id", $this->OBJusuario->getId(), PDO::PARAM_INT);
+            }
+            
+            $consulta->execute();
+
+        }  catch (Exception $erro) {
+            die("ERRO: ".$erro->getMessage());
+        }
+
+    }
 
 
     // id
