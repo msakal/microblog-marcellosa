@@ -204,6 +204,85 @@ final class Noticia {
     }
 
 
+    // Métodos para área pública do site
+
+    // Listar Destaques
+    public function listarDestaques():array {
+        $sql = "SELECT titulo, imagem, resumo, id FROM noticias
+            WHERE destaque = :destaque ORDER BY data DESC";
+
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindParam(':destaque', $this->destaque, PDO::PARAM_STR);
+            $consulta->execute();
+            $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+        } catch (Exception $erro) {
+            die("Erro: ".$erro->getMessage());
+        }
+        return $resultado;
+
+    }
+
+    // Listar Todas as Noticias
+    public function listarTodas():array {
+        $sql = "SELECT data, titulo, resumo, id FROM noticias
+            ORDER BY data DESC";
+
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->execute();
+            $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+        } catch (Exception $erro) {
+            die("Erro: ".$erro->getMessage());
+        }
+        return $resultado;
+
+    }
+
+    // Listar Detalhes das Noticias
+    public function listarDetalhes():array {
+        $sql = "SELECT noticias.id, noticias.titulo, noticias.imagem, noticias.data, noticias.texto, usuarios.nome AS autor
+            FROM noticias LEFT JOIN usuarios
+            ON noticias.usuario_id = usuarios.id
+            WHERE noticias.id = :id";
+
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindParam(':id', $this->id, PDO::PARAM_INT);
+            $consulta->execute();
+            $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+
+        } catch (Exception $erro) {
+            die("Erro: ".$erro->getMessage());
+        }
+        return $resultado;
+
+    }
+
+      // Listar Detalhes das Noticias
+      public function listarPorCategoria():array {
+        $sql = "SELECT noticias.id, noticias.titulo, noticias.data, noticias.texto, usuarios.nome AS autor, categorias.nome AS categoria
+            FROM noticias 
+            LEFT JOIN usuarios ON noticias.usuario_id = usuarios.id
+            INNER JOIN categorias ON noticias.categoria_id = categorias.id
+            WHERE noticias.categoria_id = :categoria_id";
+
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindParam(':id', $this->id, PDO::PARAM_INT);
+            $consulta->execute();
+            $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+
+        } catch (Exception $erro) {
+            die("Erro: ".$erro->getMessage());
+        }
+        return $resultado;
+
+    }
+
+
     // id
     public function getId(): int
     {

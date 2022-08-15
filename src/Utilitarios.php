@@ -10,11 +10,15 @@ abstract class Utilitarios {
         echo "</pre>";
     }
 
-    public static function formatData($noticia) {
-        return date('d/m/Y H:i',strtotime($noticia['data']));
+    public static function formataData($noticia) {
+        return date('d/m/Y H:i',strtotime($noticia));
     }
 
     public static function limitaCaracter($array) {
         return mb_strimwidth($array, 0, 20, " ...");
+    }
+
+    public static function formataTexto(string $texto):string {
+        return nl2br($texto);
     }
 }

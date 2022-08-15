@@ -52,7 +52,7 @@ $listaDeNoticias = $OBJnoticia->listar();
 					?>
 					<tr>
 						<td><?=$noticia['titulo']?></td>
-						<td><?=Utilitarios::formatData($noticia)?></td>
+						<td><?=Utilitarios::formataData($noticia['data'])?></td>
 						
 						<?php
 							if ( $_SESSION['tipo'] == 'admin' ) {
