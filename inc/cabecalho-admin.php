@@ -1,6 +1,22 @@
 <?php
+
+use Microblog\ControleDeAcesso;
+
+require_once "../vendor/autoload.php";
+
+// criamos o obj para acessar os recursos de PHP na classe ControleDeAcesso
+$OBJsessao = new ControleDeAcesso;
+
+// Executamos verificaAcesso para checar se tem alguém logado
+$OBJsessao->verificaAcesso();
+
+// Se tiver o parâmetro ?sair existir, então faça o logout
+if ( isset($_GET['sair']) ) $OBJsessao->logout();
+
+// Cria um controle com o nome da página de acesso
 $pagina = basename($_SERVER['PHP_SELF']);
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br" class="h-100">
 <head>
@@ -13,7 +29,7 @@ $pagina = basename($_SERVER['PHP_SELF']);
 <link rel="stylesheet" href="../css/style.css">
 
 </head>
-<body id="admin" class="d-flex flex-column h-100 bg-secondary bg-gradient">
+<body id="admin" class="d-flex flex-column h-100 bg-light bg-gradient">
     
 <header id="topo" class="border-bottom sticky-top">
 
@@ -33,21 +49,26 @@ $pagina = basename($_SERVER['PHP_SELF']);
             <li class="nav-item">
                 <a class="nav-link" href="meu-perfil.php">Meu perfil</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="categorias.php">Categorias</a>
-            </li>
+
+            <!-- área do adminstrador -->
+            <?php if( $_SESSION['tipo'] === 'admin' ) { ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="categorias.php">Categorias</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="usuarios.php">Usuários</a>
+                </li>
+            <?php } ?>
+            <!-- -------------- -->
+
             <li class="nav-item">
                 <a class="nav-link" href="noticias.php">Notícias</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="usuarios.php">Usuários</a>
-            </li>
-
-            <li class="nav-item">
                 <a class="nav-link" href="../index.php" target="_blank">Área pública</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link fw-bold" href=""> <i class="bi bi-x-circle"></i> Sair</a>
+                <a class="nav-link fw-bold" href="?sair"> <i class="bi bi-x-circle"></i> Sair</a>
             </li>
         </ul>
 

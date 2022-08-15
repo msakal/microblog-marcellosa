@@ -1,5 +1,44 @@
-<?php 
+<?php
+
+use Microblog\Categoria;
+use Microblog\Noticia;
+use Microblog\Utilitarios;
+
 require_once "../inc/cabecalho-admin.php";
+
+$OBJnoticia = new Noticia;
+// Utilitarios::dump($OBJnoticia);
+
+$OBJcategoria = new Categoria;
+$listaDeCategorias = $OBJcategoria->listar();
+
+if( isset ($_POST['inserir'])) {
+	$OBJnoticia = new Noticia;
+
+	$OBJnoticia->setTitulo($_POST['titulo']);
+	$OBJnoticia->setTexto($_POST['texto']);
+	$OBJnoticia->setResumo($_POST['resumo']);
+	$OBJnoticia->setDestaque($_POST['destaque']);
+	$OBJnoticia->setCategoriaId($_POST['categoria']);
+
+	// Aplicamos o id do usuário logado na sessão à propriedade id da classe/objeto Usuario.
+	$OBJnoticia->OBJusuario->setId($_SESSION['id']);
+
+
+	// Capturar os dados do arquivo enviado ..
+	$imagem = $_FILES["imagem"];
+	// Função upload (responsávelpor pegar o arquivo inteiro e enviar para o HD do servidor).
+	$OBJnoticia->upload($imagem);
+	// Enviando para o setters (e para o banco) SOMENTE a parte que se refere ao nome/extensão do arquivo
+	$OBJnoticia->setImagem($imagem['name']);
+
+
+	$OBJnoticia->inserir();
+	header("location:noticias.php");
+
+	// Utilitarios::dump($imagem);
+}
+
 ?>
 
 
@@ -9,16 +48,19 @@ require_once "../inc/cabecalho-admin.php";
 		<h2 class="text-center">
 		Inserir nova notícia
 		</h2>
-				
-		<form class="mx-auto w-75" action="" method="post" id="form-inserir" name="form-inserir">
+
+		<!-- ( enctype="multipart/form-data" ) para se trabalhar com arquivos de seleção -->
+		<form enctype="multipart/form-data" class="mx-auto w-75" action="" method="post" id="form-inserir" name="form-inserir">
 
             <div class="mb-3">
                 <label class="form-label" for="categoria">Categoria:</label>
                 <select class="form-select" name="categoria" id="categoria" required>
 					<option value=""></option>
-					<option value="1">Ciência</option>
-					<option value="2">Educação</option>
-					<option value="3">Tecnologia</option>
+					
+					<?php foreach($listaDeCategorias as $categoria) { ?>
+						<option value="<?=$categoria['id']?>"><?=$categoria['nome']?></option>
+					<?php }	?>
+
 				</select>
 			</div>
 
@@ -42,6 +84,7 @@ require_once "../inc/cabecalho-admin.php";
                 <label class="form-label" for="imagem" class="form-label">Selecione uma imagem:</label>
                 <input required class="form-control" type="file" id="imagem" name="imagem"
                 accept="image/png, image/jpeg, image/gif, image/svg+xml">
+				<!-- mime type (imgem/png), são os tipos de arquivos que podem ser selecionados -->
 			</div>
 			
             <div class="mb-3">

@@ -1,3 +1,12 @@
+<?php
+
+use Microblog\Categoria;
+
+require_once "vendor/autoload.php"; 
+$OBJcategoria = new Categoria;
+$listaDeCategoria = $OBJcategoria->listar();
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br" class="h-100">
 <head>
@@ -32,9 +41,11 @@
             Categorias
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="noticias-por-categoria.php">Ciência</a></li>
-            <li><a class="dropdown-item" href="noticias-por-categoria.php">Educação</a></li>
-            <li><a class="dropdown-item" href="noticias-por-categoria.php">Tecnologia</a></li>
+            
+            <?php foreach ( $listaDeCategoria as $categoria) { ?>
+              <li><a class="dropdown-item" href="noticias-por-categoria.php?id=<?=$categoria['id']?>"><?=$categoria['nome']?></a></li>
+            <?php } ?>
+            
           </ul>
         </li>
         <li class="nav-item">

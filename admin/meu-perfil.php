@@ -1,5 +1,45 @@
-<?php 
+<?php
+
+use Microblog\Usuario;
+// use Microblog\Utilitarios;
+
 require_once "../inc/cabecalho-admin.php";
+
+$OBJusuario = new Usuario;
+$OBJusuario->setId($_SESSION['id']);
+$dados = $OBJusuario->listarUm();
+
+// Utilitarios::dump($dados);
+
+if(isset($_POST['atualizar'])) {
+      
+	$OBJusuario->setNome($_POST['nome']);
+
+	// Atualiza sessão com os dados alterados
+	$_SESSION['nome'] = $OBJusuario->getNome();
+	
+	$OBJusuario->setEmail($_POST['email']);
+	$_SESSION['email'] = $OBJusuario->getEmail();
+	$OBJusuario->setTipo($_SESSION['tipo']);
+	
+	// Consiste senha
+	if (empty($_POST['senha'])) {
+		$OBJusuario->setSenha( $dados['senha'] );
+		// echo $OBJusuario->getSenha(); >> display para verificação ...
+
+	} else {
+		// Caso usuário digitou alguma coisa no ccampo senha, precisamos verificar o que foi digitado
+		$OBJusuario->setSenha(
+			$OBJusuario->verificaSenha( $_POST['senha'], $dados['senha'] )
+		);
+	}
+
+	$OBJusuario->atualizar();
+
+	header("location:index.php?perfil-atualizado");
+}
+
+
 ?>
 
 
@@ -14,12 +54,12 @@ require_once "../inc/cabecalho-admin.php";
 
 			<div class="mb-3">
 				<label class="form-label" for="nome">Nome:</label>
-				<input class="form-control" type="text" id="nome" name="nome" required>
+				<input class="form-control" type="text" id="nome" name="nome" value="<?=$dados['nome']?>" required>
 			</div>
 
 			<div class="mb-3">
 				<label class="form-label" for="email">E-mail:</label>
-				<input class="form-control" type="email" id="email" name="email" required>
+				<input class="form-control" type="email" id="email" name="email" value="<?=$dados['email']?>" required>
 			</div>
 
 			<div class="mb-3">
