@@ -1,11 +1,9 @@
 <?php
 
-use Microblog\Noticia;
 use Microblog\Utilitarios;
 
 require_once "inc/cabecalho.php";
 
-$OBJnoticia = new Noticia;
 $OBJnoticia->setDestaque('sim');
 $destaques = $OBJnoticia->listarDestaques();
 

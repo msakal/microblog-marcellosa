@@ -1,11 +1,9 @@
 <?php
 
-use Microblog\Noticia;
 use Microblog\Utilitarios;
 
 require_once "inc/cabecalho.php";
 
-$OBJnoticia = new Noticia;
 $OBJnoticia->setId($_GET['id']);
 $dados = $OBJnoticia->listarDetalhes();
 

@@ -1,8 +1,11 @@
 <?php
+ob_start();
 
 use Microblog\Categoria;
+use Microblog\Noticia;
 
-require_once "vendor/autoload.php"; 
+require_once "vendor/autoload.php";
+$OBJnoticia = new Noticia;
 $OBJcategoria = new Categoria;
 $listaDeCategoria = $OBJcategoria->listar();
 ?>
