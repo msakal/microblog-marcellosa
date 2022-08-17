@@ -11,4 +11,6 @@
 <script src="vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+<!-- Finalizando o monitoramento do Buffer de saída (área na memória em que os headers são processados) -->
 <?php ob_end_flush(); ?>
