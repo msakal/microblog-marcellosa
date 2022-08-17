@@ -11,6 +11,7 @@ final class Noticia {
     private string $imagem;
     private string $destaque;
     private int $categoriaId;
+    private string $termo;
 
 
     /*  Criando uma propriedade do tipo Usuário, ou seja, a partir de uma classe que criamos com o objetivo de reutlizar recursos dela.
@@ -283,14 +284,22 @@ final class Noticia {
 
     }
 
-    // Busca
+    // Busca (string) nos atributos de texto
     public function busca():array {
         $sql = "SELECT titulo, data, resumo, id FROM noticias
-            WHERE 
-            titulo LIKE :termo,
-            texto LIKE :termo,
-            resumo LIKE :termo
+            WHERE titulo LIKE :termo OR texto LIKE :termo OR resumo LIKE :termo
             ORDER BY data DESC";
+
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindValue(':termo', '%'.$this->termo.'%', PDO::PARAM_STR);
+            $consulta->execute();
+            $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+        } catch (Exception $erro) {
+            die("Erro: ".$erro->getMessage());
+        }
+        return $resultado;
     }
 
 
@@ -368,5 +377,15 @@ final class Noticia {
     public function setCategoriaId(int $categoriaId)
     {
         $this->categoriaId = filter_var($categoriaId, FILTER_SANITIZE_NUMBER_INT);
+    }
+
+    // Termo (usado para busca)
+    public function getTermo(): string
+    {
+        return $this->termo;
+    }
+    public function setTermo(string $termo)
+    {
+        $this->termo = filter_var($termo, FILTER_SANITIZE_SPECIAL_CHARS);
     }
 }
