@@ -1,16 +1,8 @@
 <?php
-
-use Microblog\Utilitarios;
-
 require_once "inc/cabecalho.php";
-
 $OBJnoticia->setDestaque('sim');
 $destaques = $OBJnoticia->listarDestaques();
-
 $todas = $OBJnoticia->listarTodas();
-
-// Utilitarios::dump($todas);
-
 ?>
 
 

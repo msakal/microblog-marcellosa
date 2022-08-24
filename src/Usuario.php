@@ -96,7 +96,7 @@ final class Usuario {
     }
 
     // Verifica existência do e-mail e recupera -> retorna o 'array' ou 'bool' (falso)
-    public function buscar():array | bool {
+    public function buscar():array {
         $sql = "SELECT * FROM usuarios WHERE email = :email";
 
         try {

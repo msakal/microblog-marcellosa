@@ -1,10 +1,6 @@
 <?php
-
 namespace Microblog;
-
-// Indicamos o uso das classes nativas do PHP (ou seja, classes que não fazem parte do nosso namespace).
 use PDO, Exception;
-
 abstract class Banco {
     // Propriedades/Atributos de acesso ao servidor de BD
     private static string $servidor = "localhost";

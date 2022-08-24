@@ -1,13 +1,9 @@
 <?php
-
 require_once "../inc/cabecalho-admin.php";
-
 if ( isset($_GET['perfil-atualizado']) ) {
 	$feedback = 'Dados Atualizado com Sucesso!';
 }
-
 ?>
-
 
 <article class="p-5 my-4 rounded-3 bg-white shadow">
     <div class="container-fluid py-1">        

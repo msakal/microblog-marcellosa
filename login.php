@@ -1,9 +1,6 @@
 <?php
-
 use Microblog\ControleDeAcesso;
 use Microblog\Usuario;
-use Microblog\Utilitarios;
-
 require_once "inc/cabecalho.php";
 
 // Mensagens de feedback relacionadas ao acesso
